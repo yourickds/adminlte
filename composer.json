@@ -1,0 +1,25 @@
+{
+    "name": "yourickds/adminlte",
+    "description": "AdminLTE module for Yii2",
+    "keywords": ["yii2", "adminlte", "module"],
+    "type": "yii2-extension",
+    "license": "MIT",
+    "support": {
+        "source": "https://github.com/yourickds/adminlte",
+        "issues": "https://github.com/yourickds/adminlte/issues"
+    },
+    "authors": [
+        {
+            "name": "Yourick",
+            "homepage" : "https://github.com/yourickds"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "yourickds\\adminlte\\": ""
+        }
+    }
+}
