@@ -20,4 +20,8 @@ class Select2Asset extends AssetBundle
     public $js = [
         'js/select2.full.min.js',
     ];
+
+    public $depends = [
+        'yii\web\JqueryAsset',
+    ];
 }

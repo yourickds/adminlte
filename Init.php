@@ -11,6 +11,7 @@ use Yii;
 use yii\base\Module;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yourickds\adminlte\models\User;
 
 class Init extends Module
 {
@@ -37,7 +38,7 @@ class Init extends Module
                     ],
                     [
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['canAdmin'],
                     ],
                 ],
                 'denyCallback' => function() {
@@ -56,6 +57,14 @@ class Init extends Module
     public function init()
     {
         parent::init();
+        Yii::$app->set('user', [
+            'class' => 'yii\web\User',
+            'identityClass' => 'yourickds\adminlte\models\User',
+            'enableAutoLogin' => true,
+            'loginUrl' => ['adminlte/auth/login'],
+            'identityCookie' => ['name' => '_adminlte', 'httpOnly' => true],
+            'idParam' => 'adminlte_id'
+        ]);
         Yii::$app->errorHandler->errorAction = 'adminlte/dashboard/error';
         if ($this->sidebarExpandHover){
             $this->toggleSidebar = true;

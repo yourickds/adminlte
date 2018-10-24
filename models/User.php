@@ -7,34 +7,43 @@
 
 namespace yourickds\adminlte\models;
 
-use yii\base\BaseObject;
+use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
-class User extends BaseObject implements IdentityInterface
+class User extends ActiveRecord implements IdentityInterface
 {
-    public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
+    public $role;
 
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin@admin.ru',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ]
-    ];
+    public static function tableName()
+    {
+        return 'user';
+    }
 
+    public function rules()
+    {
+        return [
+            [['email', 'role'], 'required'],
+            [['email'], 'email'],
+            [['email'], 'unique'],
+            [['role'], 'string'],
+            [['role'], 'validateRole']
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'email' => 'Почта',
+            'role' => 'Роль'
+        ];
+    }
 
     /**
      * {@inheritdoc}
      */
     public static function findIdentity($id)
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        return static::findOne($id);
     }
 
     /**
@@ -42,13 +51,7 @@ class User extends BaseObject implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
-        }
 
-        return null;
     }
 
     /**
@@ -57,15 +60,9 @@ class User extends BaseObject implements IdentityInterface
      * @param string $username
      * @return static|null
      */
-    public static function findByUsername($username)
+    public static function findByEmail($email)
     {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
-
-        return null;
+        return static::findOne(['email' => $email]);
     }
 
     /**
@@ -100,6 +97,18 @@ class User extends BaseObject implements IdentityInterface
      */
     public function validatePassword($password)
     {
-        return $this->password === $password;
+        return \Yii::$app->security->validatePassword($password, $this->password);
+    }
+
+    public function generateAuthKey()
+    {
+        $this->authKey = \Yii::$app->security->generateRandomString();
+    }
+
+    public function validateRole($attribute)
+    {
+        $role = \Yii::$app->authManager->getRole($this->role);
+        if (!$role || $role->name == 'root')
+            return $this->addError($attribute, 'Необходимо заполнить «Роль».');
     }
 }

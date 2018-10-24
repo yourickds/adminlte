@@ -506,11 +506,16 @@ if ($module->sidebarExpandHover)
                         ],
                     ],
                     [
-                        'template' => '<a href="#"><i class="fa fa-share"></i> <span>Multilevel</span>'.
+                        'template' => '<a href="#"><i class="fa fa-cog"></i> <span>Настройки</span>'.
                             '<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>',
                         'options' => ['class' => 'treeview'],
+                        'active' => in_array(Yii::$app->controller->id, ['user', 'role']) ? true : false,
                         'items' => [
-                            ['template' => '<a href="#"><i class="fa fa-circle-o"></i> Level One</a>'],
+                            [
+                                'url' => \yii\helpers\Url::to(['/adminlte/user']),
+                                'template' => '<a href="{url}"><i class="fa fa-users"></i> Пользователи</a>',
+                                'active' => Yii::$app->controller->id == 'user' ? true : false
+                            ],
                             [
                                 'template' => '<a href="#"><i class="fa fa-circle-o"></i> <span>Level One</span>'.
                                     '<span class="pull-right-container">'.
@@ -532,7 +537,11 @@ if ($module->sidebarExpandHover)
                                     ],
                                 ],
                             ],
-                            ['template' => '<a href="#"><i class="fa fa-circle-o"></i> Level One</a>'],
+                            [
+                                'url' => \yii\helpers\Url::to(['/adminlte/role']),
+                                'template' => '<a href="{url}"><i class="fa fa-key"></i> Роли</a>',
+                                'active' => Yii::$app->controller->id == 'role' ? true : false
+                            ],
                         ],
                     ],
                     [

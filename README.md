@@ -42,6 +42,15 @@ to the `require` section of your application's `composer.json` file.
 ],
 ```
 
+* Add a authManager in `components` section of your application's configuration file, for example:
+
+```php
+'authManager' => [
+    'class' => 'yii\rbac\DbManager',
+    'cache' => 'cache'
+],
+```
+
 * Add a new rule for `urlManager` of your application's configuration file, for example:
 
 ```php
@@ -51,6 +60,18 @@ to the `require` section of your application's `composer.json` file.
         'admin' => 'adminlte/dashboard',
     ],
 ],
+```
+
+* Update the database schema using the migration
+
+```php
+php yii migrate/up --migrationPath=@yii/rbac/migrations
+```
+
+and
+
+```php
+php yii migrate/up --migrationPath=@vendor/yourickds/adminlte/migrations
 ```
 
 Resources

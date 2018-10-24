@@ -69,7 +69,7 @@ $this->registerJs($script);
                     ],
                 ],
             ]) ?>
-                <?= $form->field($model, 'username', [
+                <?= $form->field($model, 'email', [
                     'template' => "{input}\n" .
                         \yii\helpers\Html::tag('span', null, [
                             'class' => 'glyphicon glyphicon-envelope form-control-feedback'
@@ -83,11 +83,7 @@ $this->registerJs($script);
                 ])->passwordInput(['placeholder' => 'Password']) ?>
                 <div class="row">
                     <div class="col-xs-8">
-                        <div class="checkbox icheck">
-                            <label>
-                                <input type="checkbox"> Remember Me
-                            </label>
-                        </div>
+                        <?= $form->field($model, 'rememberMe', ['options' => ['class' => 'checkbox icheck']])->checkbox() ?>
                     </div>
                     <!-- /.col -->
                     <div class="col-xs-4">
