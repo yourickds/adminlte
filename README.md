@@ -62,6 +62,24 @@ to the `require` section of your application's `composer.json` file.
 ],
 ```
 
+* Add a template for Gii CRUD generator of your application's configuration file, for example:
+
+```php  
+$config['modules']['gii'] = [
+    'class' => 'yii\gii\Module',
+    'generators' => [
+        'crud' => [
+            'class' => 'yii\gii\generators\crud\Generator',
+            'templates' => [
+                'adminlte' => '@vendor/yourickds/adminlte/gii/crud',
+            ]
+        ]
+    ],
+    // uncomment the following to add your IP if you are not connecting from localhost.
+    // 'allowedIPs' => ['127.0.0.1', '::1'],
+];
+```
+
 * Update the database schema using the migration
 
 ```php
