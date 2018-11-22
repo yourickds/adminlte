@@ -21,11 +21,6 @@ class ExamplesController extends Controller
         return $this->renderPartial('print');
     }
 
-    public function actionProfile()
-    {
-        return $this->render('profile');
-    }
-
     public function actionLockscreen()
     {
         return $this->renderPartial('lockscreen');

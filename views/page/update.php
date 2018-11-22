@@ -43,7 +43,7 @@ $this->params['bundle'] = $bundle;
     <section class="content">
         <div class="row">
             <div class="col-md-12">
-                <?= $this->render('_form', [
+                <?= $this->render('_form-update', [
                     'model' => $model,
                     'params' => $params
                 ]) ?>

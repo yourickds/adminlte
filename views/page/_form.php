@@ -22,23 +22,13 @@ use yii\widgets\ActiveForm;
 
         <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
+        <?= $form->field($model, 'action')->textInput(['maxlength' => true]) ?>
+
         <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
 
         <?= $form->field($model, 'meta_title')->textInput(['maxlength' => true]) ?>
 
         <?= $form->field($model, 'meta_description')->textInput(['maxlength' => true]) ?>
-
-        <!-- Параметры -->
-
-        <?php if (isset($params)): ?>
-            <?php foreach ($params as $param): ?>
-                <div class="form-group field-page_params-<?= $param['name'] ?>">
-                    <label class="control-label" for="page_params-<?= $param['name'] ?>"><?= $param['description'] ?></label>
-                    <?= Html::textInput("PageParams[{$param['name']}]",$param['value'],
-                        ['id' => "page_params-{$param['name']}", 'maxlength' => 255, 'class' => 'form-control']) ?>
-                </div>
-            <?php endforeach; ?>
-        <?php endif; ?>
 
     </div>
     <div class="box-footer">

@@ -1,8 +1,14 @@
 <?php
+/**
+ * @link https://github.com/yourickds/adminlte
+ * @copyright Copyright (c) 2018 Yourick
+ * @license http://opensource.org/licenses/MIT MIT
+ */
 
 namespace yourickds\adminlte\controllers;
 
 use Yii;
+use yii\filters\AccessControl;
 use yourickds\adminlte\models\PageParams;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -20,6 +26,15 @@ class PageParamsController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['root'],
+                    ]
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

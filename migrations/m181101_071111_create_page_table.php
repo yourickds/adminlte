@@ -1,4 +1,9 @@
 <?php
+/**
+ * @link https://github.com/yourickds/adminlte
+ * @copyright Copyright (c) 2018 Yourick
+ * @license http://opensource.org/licenses/MIT MIT
+ */
 
 use yii\db\Migration;
 

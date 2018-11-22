@@ -26,6 +26,11 @@ $actionParamComments = $generator->generateActionParamComments();
 
 echo "<?php\n";
 ?>
+/**
+* @link https://github.com/yourickds/adminlte
+* @copyright Copyright (c) 2018 Yourick
+* @license http://opensource.org/licenses/MIT MIT
+*/
 
 namespace <?= StringHelper::dirname(ltrim($generator->controllerClass, '\\')) ?>;
 

@@ -10,6 +10,7 @@
 
 $bundle = $this->params['bundle'];
 $module = Yii::$app->controller->module;
+$session = Yii::$app->session;
 
 if ($module->toggleRightSidebarSlide)
     $this->registerJs("$('[data-toggle=\"control-sidebar\"]').controlSidebar();$('[data-toggle=\"control-sidebar\"]').data('lte.controlsidebar').options.slide = false");
@@ -293,10 +294,10 @@ if ($module->sidebarExpandHover)
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="<?= \yii\helpers\Url::to(['examples/profile']) ?>" class="btn btn-default btn-flat">Profile</a>
+                                    <a href="<?= \yii\helpers\Url::to(['/adminlte/profile']) ?>" class="btn btn-default btn-flat">Профиль</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="<?= \yii\helpers\Url::to(['auth/logout']) ?>" class="btn btn-default btn-flat">Sign out</a>
+                                    <a href="<?= \yii\helpers\Url::to(['auth/logout']) ?>" class="btn btn-default btn-flat">Выход</a>
                                 </div>
                             </li>
                         </ul>
@@ -308,6 +309,24 @@ if ($module->sidebarExpandHover)
                 </ul>
             </div>
         </nav>
+        <?php if ($notice = $session->getFlash('error')): ?>
+            <div class="box-body col-md-6 col-md-offset-3">
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-ban"></i> Ошибка</h4>
+                    <?= $notice ?>
+                </div>
+            </div>
+        <?php endif; ?>
+        <?php if ($notice = $session->getFlash('notification')): ?>
+        <div class="box-body col-md-6 col-md-offset-3">
+            <div class="alert alert-<?= $notice['status'] ?> alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-check"></i> Уведомление</h4>
+                <?= $notice['value'] ?>
+            </div>
+        </div>
+        <?php endif; ?>
     </header>
     <!-- Left side column. contains the logo and sidebar -->
     <aside class="main-sidebar">
@@ -347,6 +366,72 @@ if ($module->sidebarExpandHover)
                         'url' => \yii\helpers\Url::to(['/adminlte/dashboard']),
                         'template' => '<a href="{url}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>',
                         'active' => Yii::$app->controller->route == 'adminlte/dashboard/index' ? true : false,
+                    ],
+                    [
+                        'template' => '<a href="#"><i class="fa fa-plus-square"></i> <span>Содержимое</span>'.
+                            '<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>',
+                        'options' => ['class' => 'treeview'],
+                        'active' => in_array(Yii::$app->controller->id, [
+                            'page',
+                            'page-params'
+                        ]) ? true : false,
+                        'items' => [
+                            [
+                                'url' => \yii\helpers\Url::to(['/adminlte/page']),
+                                'template' => '<a href="{url}"><i class="fa fa-file"></i> <span>Страницы</span></a>',
+                                'active' => Yii::$app->controller->id == 'page' ? true : false,
+                            ],
+                            [
+                                'url' => \yii\helpers\Url::to(['/adminlte/page-params']),
+                                'template' => '<a href="{url}"><i class="fa fa-cog"></i> <span>Параметры страниц</span></a>',
+                                'active' => Yii::$app->controller->id == 'page-params' ? true : false,
+                            ],
+                        ],
+                    ],
+                    [
+                        'template' => '<a href="#"><i class="fa fa-cubes"></i> <span>Каталог</span>'.
+                            '<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>',
+                        'options' => ['class' => 'treeview'],
+                        'active' => in_array(Yii::$app->controller->id, [
+                            'category',
+                            'group',
+                            'param',
+                            'manufacturer',
+                            'nomenclature',
+                            'filter'
+                        ]) ? true : false,
+                        'items' => [
+                            [
+                                'url' => \yii\helpers\Url::to(['/adminlte/category']),
+                                'template' => '<a href="{url}"><i class="fa fa-list-alt"></i> Категории</a>',
+                                'active' => Yii::$app->controller->id == 'category' ? true : false
+                            ],
+                            [
+                                'url' => \yii\helpers\Url::to(['/adminlte/group']),
+                                'template' => '<a href="{url}"><i class="fa fa-object-group"></i> Группы</a>',
+                                'active' => Yii::$app->controller->id == 'group' ? true : false
+                            ],
+                            [
+                                'url' => \yii\helpers\Url::to(['/adminlte/param']),
+                                'template' => '<a href="{url}"><i class="fa fa-cog"></i> Параметры</a>',
+                                'active' => Yii::$app->controller->id == 'param' ? true : false
+                            ],
+                            [
+                                'url' => \yii\helpers\Url::to(['/adminlte/manufacturer']),
+                                'template' => '<a href="{url}"><i class="fa fa-industry"></i> Производители</a>',
+                                'active' => Yii::$app->controller->id == 'manufacturer' ? true : false
+                            ],
+                            [
+                                'url' => \yii\helpers\Url::to(['/adminlte/nomenclature']),
+                                'template' => '<a href="{url}"><i class="fa fa-edit"></i> Номенклатура</a>',
+                                'active' => Yii::$app->controller->id == 'nomenclature' ? true : false
+                            ],
+                            [
+                                'url' => \yii\helpers\Url::to(['/adminlte/filter']),
+                                'template' => '<a href="{url}"><i class="fa fa-filter"></i> Фильтры</a>',
+                                'active' => Yii::$app->controller->id == 'filter' ? true : false
+                            ],
+                        ],
                     ],
                     [
                         'url' => \yii\helpers\Url::to(['widgets/index']),

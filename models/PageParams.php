@@ -1,4 +1,9 @@
 <?php
+/**
+ * @link https://github.com/yourickds/adminlte
+ * @copyright Copyright (c) 2018 Yourick
+ * @license http://opensource.org/licenses/MIT MIT
+ */
 
 namespace yourickds\adminlte\models;
 
@@ -47,7 +52,7 @@ class PageParams extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'page_id' => 'Page ID',
+            'page_id' => 'Страница',
             'name' => 'Название',
             'description' => 'Описание для заполнения',
         ];

@@ -7,6 +7,7 @@
 
 namespace yourickds\adminlte\models;
 
+use Helper\Scenario;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
@@ -110,5 +111,17 @@ class User extends ActiveRecord implements IdentityInterface
         $role = \Yii::$app->authManager->getRole($this->role);
         if (!$role || $role->name == 'root')
             return $this->addError($attribute, 'Необходимо заполнить «Роль».');
+    }
+
+    public function changePassword($password)
+    {
+        $this->password = \Yii::$app->security->generatePasswordHash($password);
+        $rolesUser = \Yii::$app->authManager->getRolesByUser($this->id);
+        foreach ($rolesUser as $roleUser){
+            $this->role = $roleUser->name;
+        }
+        if ($this->role == 'root') {
+            \Yii::$app->session->setFlash('error', 'Невозможно изменить пароль для суперпользователя!');
+        }
     }
 }

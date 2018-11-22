@@ -27,11 +27,6 @@ class UserController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'allow' => false,
-                        'actions' => ['delete'],
-                        'roles' => ['admin']
-                    ],
-                    [
                         'allow' => true,
                         'roles' => ['root', 'admin'],
                     ]
@@ -48,8 +43,9 @@ class UserController extends Controller
 
     public function actionIndex()
     {
+        $id_user = Yii::$app->user->getId();
         $dataProvider = new ActiveDataProvider([
-            'query' => User::find()->where(['!=', 'id', 1]),
+            'query' => User::find()->where(['!=', 'id', 1])->andWhere(['!=', 'id', $id_user]),
         ]);
 
         return $this->render('index', [
@@ -59,7 +55,7 @@ class UserController extends Controller
 
     public function actionView($id)
     {
-        if ($id == 1)
+        if ($id == 1 || $id == Yii::$app->user->getId())
             throw new NotFoundHttpException('The requested page does not exist.');
         $model = $this->findModel($id);
 
@@ -104,6 +100,8 @@ class UserController extends Controller
 
     public function actionUpdate($id)
     {
+        if ($id == 1 || $id == Yii::$app->user->getId())
+            throw new NotFoundHttpException('The requested page does not exist.');
         $model = $this->findModel($id);
 
         $roles = Yii::$app->authManager->getRolesByUser($model->id);
@@ -127,10 +125,12 @@ class UserController extends Controller
 
     public function actionDelete($id)
     {
-        if ($id != Yii::$app->user->getId()) {
+        if ($id != 1 && $id != Yii::$app->user->getId()) {
             $model = $this->findModel($id);
             Yii::$app->authManager->revokeAll($model->id);
             $model->delete();
+        } else {
+            Yii::$app->session->setFlash('error', 'Вы не можете удалить самого себя!');
         }
 
         return $this->redirect(['index']);

@@ -1,4 +1,9 @@
 <?php
+/**
+ * @link https://github.com/yourickds/adminlte
+ * @copyright Copyright (c) 2018 Yourick
+ * @license http://opensource.org/licenses/MIT MIT
+ */
 
 namespace yourickds\adminlte\controllers;
 
@@ -27,13 +32,13 @@ class PageController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'allow' => false,
-                        'actions' => ['delete', 'create'],
-                        'roles' => ['admin']
+                        'allow' => true,
+                        'actions' => ['index', 'view', 'update'],
+                        'roles' => ['admin', 'manager', 'updatePage']
                     ],
                     [
                         'allow' => true,
-                        'roles' => ['root', 'admin'],
+                        'roles' => ['root'],
                     ]
                 ],
             ],

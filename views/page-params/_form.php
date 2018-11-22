@@ -20,7 +20,8 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
     <div class="box-body">
 
-        <?= $form->field($model, 'page_id')->textInput() ?>
+        <?= $form->field($model, 'page_id')->dropDownList(\yourickds\adminlte\models\Page::find()
+            ->select(['name', 'id'])->indexBy('id')->asArray()->column()) ?>
 
         <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 

@@ -61,7 +61,12 @@ $this->params['bundle'] = $bundle;
                         'columns' => [
 
                             'id',
-                            'page_id',
+                            [
+                                'attribute' => 'page_id',
+                                'value' => function($data){
+                                    return $data->page->name;
+                                }
+                            ],
                             [
                                 'attribute' => 'action',
                                 'value' => function($data){
