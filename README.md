@@ -92,20 +92,6 @@ and
 php yii migrate/up --migrationPath=@vendor/yourickds/adminlte/migrations
 ```
 
-Examples
---------
-
-* Get a list of page settings in the controller
-
-```php
-Page::find()->where(['action'=>'action page*'])->joinWith('pageParams')->asArray()->one();
-```
-
-* The output settings page, in the view
-```php
-<?= $data['pageParams']['name param page*']['value'] ?>
-```
-
 Resources
 ---------
 * [AdminLTE](https://adminlte.io/)
